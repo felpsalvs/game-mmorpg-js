@@ -5,9 +5,9 @@ export default function Home(props) {
     <>
       <main className="flex h-screen w-screen gap-2 bg-[#152724]">
         <div className="flex h-full w-full gap-2 bg-[#152724]">
-          <div className="h-full w-full bg-[#2C534A]">
+          <div className="h-full w-fit bg-[#2C534A]">
             <Image
-              src="/warrior.png"
+              src="/druid.png"
               alt="Logo"
               width={0}
               height={0}
