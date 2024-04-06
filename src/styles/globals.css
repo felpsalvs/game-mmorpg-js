@@ -46,3 +46,40 @@
   box-shadow: inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
   transform: translate(2px);
 }
+
+.medieval-menu {
+  background-color: #162825;
+  padding: 20px;
+  list-style: none;
+}
+
+.medieval-menu li {
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.medieval-menu a {
+  text-decoration: none;
+  color: #af9567;
+  display: block;
+  padding: 10px 20px;
+  transition: color 0.3s ease;
+  font-family: "Goudy Bookletter 1911", serif;
+  font-size: 16px;
+}
+
+.medieval-menu li:hover {
+  background-color: #4f4334;
+}
+
+.medieval-menu li:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.medieval-menu li:hover a {
+  color: #af9567;
+}
