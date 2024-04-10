@@ -1,8 +1,12 @@
 import Image from "next/image";
 import { useState } from "react";
+import {useSessionGuard} from '~/utils/useSessionGuard';
 
-export default function Home(props) {
+export default function Home() {
   const [collapsedSkills, setCollapsedSkills] = useState(true);
+
+  useSessionGuard();
+  
   const characters = [
     {
       name: "Rouge",
