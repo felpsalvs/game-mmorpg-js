@@ -1,39 +1,103 @@
+import { DialogDescription } from "@radix-ui/react-dialog";
 import Image from "next/image";
-import { useState } from "react";
-import {useSessionGuard} from '~/utils/useSessionGuard';
+import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "~/components/ui/dialog";
+import { useSessionGuard } from "~/utils/useSessionGuard";
 
-export default function Home() {
+interface Char {
+  id: number;
+  name: string;
+  level: number;
+  user?: unknown;
+  class?: {
+    id: number;
+    name: string;
+    emoji: string;
+    image: string;
+  };
+}
+
+export default function Home(props) {
   const [collapsedSkills, setCollapsedSkills] = useState(true);
-
+  const [chars, setChars] = useState<Char[]>([]);
+  const [selectedChar, setSelectedChar] = useState<Char | undefined>(undefined);
+  const [newCharacter, setNewCharacter] = useState(false);
+  const [selectedClass, setSelectedClass] = useState(-1);
+  const [charName, setCharName] = useState("");
   useSessionGuard();
-  
-  const characters = [
-    {
-      name: "Rouge",
-      emoji: "🏹",
-      level: 99,
-      image: "/rouge.png",
-    },
-    {
-      name: "Druid",
-      emoji: "🐻",
-      level: 99,
-      image: "/druid.png",
-    },
-    {
-      name: "Mage",
-      emoji: "🧙‍♂️",
-      level: 89,
-      image: "/mage.png",
-    },
-    {
-      name: "Warrior",
-      emoji: "🛡️",
-      level: 99,
-      image: "/warrior.png",
-    },
-  ];
+
+  const characters = api.character.getChars.useQuery();
+  const createCharMutation = api.character.create.useMutation();
+
+  useEffect(() => {
+    if (characters?.data) {
+      const updatedChars = character.data as Char[];
+      setChars(updatedChars);
+      if (!selectedChar && updatedChars.length > 0) {
+        setSelectedChar(updatedChars[0]);
+      }
+    }
+  }, [characters, selectedChar]);
+
+  const refreshChars = () => {
+    void characters.refetch();
+  };
+
+  const selectChar = (char: Char) => {
+    setSelectedChar(char);
+  };
+
+  const createChar = async () => {
+    try {
+      await createCharMutation.mutateAsync({
+        name: charName,
+        classId: selectedClass,
+      });
+      refreshChars();
+    } catch (error) {
+      console.error("Error creating character:", error);
+    } finally {
+      setNewCharacter(false);
+    }
+  };
+
+  // const characters = [
+  //   {
+  //     name: "Rouge",
+  //     emoji: "🏹",
+  //     level: 99,
+  //     image: "/rouge.png",
+  //   },
+  //   {
+  //     name: "Druid",
+  //     emoji: "🐻",
+  //     level: 99,
+  //     image: "/druid.png",
+  //   },
+  //   {
+  //     name: "Mage",
+  //     emoji: "🧙‍♂️",
+  //     level: 89,
+  //     image: "/mage.png",
+  //   },
+  //   {
+  //     name: "Warrior",
+  //     emoji: "🛡️",
+  //     level: 99,
+  //     image: "/warrior.png",
+  //   },
+  // ];
+
   return (
+    <>
+    <Dialog open={newCharacter} onOpenChange={setNewCharacter}>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Criar novo personagem?</DialogTitle>
+        <DialogDescription>Escolha entre as classes disponiveis para o seu personagem</DialogDescription>
+      </DialogHeader>
+    </DialogContent>
+    </Dialog>
     <main className="flex h-full w-full gap-2 bg-[#152724]">
       <div className="flex h-full w-full gap-2 bg-[#152724]">
         <div className="golden-gradient hidden w-fit p-2 sm:block">
@@ -202,5 +266,6 @@ export default function Home() {
         </div>
       </div>
     </main>
+    </>
   );
 }
