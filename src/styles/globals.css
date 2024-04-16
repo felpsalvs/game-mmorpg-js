@@ -143,6 +143,7 @@ body > div {
   }
 }
 
+/* 
 @layer base {
   * {
     @apply border-border;
@@ -150,7 +151,7 @@ body > div {
   body {
     @apply bg-background text-foreground;
   }
-}
+} */
 
 @tailwind base;
 @tailwind components;

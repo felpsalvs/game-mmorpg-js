@@ -1,8 +1,17 @@
-import { DialogDescription } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "~/components/ui/dialog";
 import { useSessionGuard } from "~/utils/useSessionGuard";
+
+import { api } from "~/utils/api";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog";
 
 interface Char {
   id: number;
@@ -31,7 +40,7 @@ export default function Home() {
 
   useEffect(() => {
     if (characters?.data) {
-      const updatedChars = character.data as Char[];
+      const updatedChars = characters.data as Char[];
       setChars(updatedChars);
       if (!selectedChar && updatedChars.length > 0) {
         setSelectedChar(updatedChars[0]);
@@ -61,32 +70,6 @@ export default function Home() {
     }
   };
 
-  // const characters = [
-  //   {
-  //     name: "Rouge",
-  //     emoji: "🏹",
-  //     level: 99,
-  //     image: "/rouge.png",
-  //   },
-  //   {
-  //     name: "Druid",
-  //     emoji: "🐻",
-  //     level: 99,
-  //     image: "/druid.png",
-  //   },
-  //   {
-  //     name: "Mage",
-  //     emoji: "🧙‍♂️",
-  //     level: 89,
-  //     image: "/mage.png",
-  //   },
-  //   {
-  //     name: "Warrior",
-  //     emoji: "🛡️",
-  //     level: 99,
-  //     image: "/warrior.png",
-  //   },
-  // ];
 
   return (
     <>
@@ -141,12 +124,15 @@ export default function Home() {
                 className={`medieval-menu w-full overflow-y-auto ${collapsedSkills ? "" : "hidden"}`}
               >
                 <li>
-                  <a>Novo Jogo</a>
+                  <a onClick={() => setNewCharacter(true)}>Novo Jogo</a>
                 </li>
-                {characters.map((character, index) => (
-                  <li key={index}>
-                    <a>
-                      {character.emoji} {character.name} Lv: {character.level}
+                {chars?.map((char: Char) => (
+                  <li key={char.id} onClick={() => selectChar(char)}>
+                    <a
+                    className={`${
+                      selectedChar?.id === char.id ? "bg-[#4f4334] text-white" : ""
+                    }`}>
+                      {char.class?.emoji} {char.name} Lv: {char.level}
                     </a>
                   </li>
                 ))}
