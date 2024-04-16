@@ -17,7 +17,7 @@ interface Char {
   };
 }
 
-export default function Home(props) {
+export default function Home() {
   const [collapsedSkills, setCollapsedSkills] = useState(true);
   const [chars, setChars] = useState<Char[]>([]);
   const [selectedChar, setSelectedChar] = useState<Char | undefined>(undefined);
@@ -96,6 +96,24 @@ export default function Home(props) {
         <DialogTitle>Criar novo personagem?</DialogTitle>
         <DialogDescription>Escolha entre as classes disponiveis para o seu personagem</DialogDescription>
       </DialogHeader>
+      <div className="flex items-center space-x-2">
+        <div className="grid flex-1 gap-2">{createCharMutation.error && (
+          <p>{createCharMutation.error.message}</p>
+        )}
+        <div>
+          <label className="text-white">Nome</label>
+          <input type="text"
+          className="input input-bordered w-full"
+          placeholder="Nome do personagem"
+          value={charName}
+          onChange={(e) => setCharName(e.target.value)} />
+        </div>
+        <div className="{`flex flex-col items-center justify-center`}">
+          <Image/>
+        </div>
+        </div>
+
+      </div>
     </DialogContent>
     </Dialog>
     <main className="flex h-full w-full gap-2 bg-[#152724]">
