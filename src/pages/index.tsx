@@ -153,12 +153,15 @@ export default function Home(props) {
             </div>
           </div>
           <DialogFooter className="flex h-full w-full items-end justify-end">
-                <button className="btn btn-primary">
-                  <span>
-                  ➕
-                  </span>
-                  Criar
-                </button>
+            <button
+              className="btn btn-primary flex h-fit items-center gap-1 rounded-lg bg-green-500 p-2 text-white"
+              onClick={() => createChar()}
+            >
+              <span role="img" aria-label="Plus">
+                ➕
+              </span>
+              Criar
+            </button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
