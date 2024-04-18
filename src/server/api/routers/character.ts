@@ -15,10 +15,30 @@ export const characterRouter = createTRPCRouter({
 
     return chars.sort((a, b) => a.level - b.level);
   }),
+  getChar: protectedProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const char = await ctx.db.character.findMany({
+        where: {
+          id: {equals: input as number | undefined},
+          userId: ctx.session.user.id,
+        },
+        include: {
+          class: true,
+          charStats: true,
+        }
+      });
+
+      if (!char) {
+        throw new Error("Character not found.");
+      }
+
+      return char;
+    });
   create: protectedProcedure
-    .input(z.object({ name: z.string().min(1).max(20), classId: z.number() }))
+    .input(z.object({name: z.string().min(1).max(20), classId: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      const useChars = await ctx.db.character.findMany({
+      const userChars = await ctx.db.character.findMany({
         where: {
           userId: ctx.session.user.id,
         },
@@ -50,7 +70,7 @@ export const characterRouter = createTRPCRouter({
         },
       });
     }),
-  levelUp: protectedProcedure
+    levelUp: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const char = await ctx.db.character.findFirst({

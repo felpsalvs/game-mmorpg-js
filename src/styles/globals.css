@@ -16,8 +16,15 @@ body > div {
         #9f7928 30%,
         #8a6e2f 40%,
         transparent 80%
-      ), radial-gradient(ellipse farthest-corner at left top, #ffffff 0%, #ffffac
-          8%, #d1b464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+      ),
+      radial-gradient(
+        ellipse farthest-corner at left top,
+        #ffffff 0%,
+        #ffffac 8%,
+        #d1b464 25%,
+        #5d4a1f 62.5%,
+        #5d4a1f 100%
+      );
   }
 
   .medieval-button {
@@ -52,7 +59,9 @@ body > div {
   .medieval-menu li {
     margin-bottom: 10px;
     border-radius: 4px;
-    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.2s ease;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
   }
 
@@ -143,8 +152,7 @@ body > div {
   }
 }
 
-/* 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
   }
