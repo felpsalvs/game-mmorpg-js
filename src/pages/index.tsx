@@ -4,6 +4,7 @@ import { useSessionGuard } from "~/utils/useSessionGuard";
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -25,7 +26,7 @@ interface Char {
   };
 }
 
-export default function Home(props) {
+export default function Home() {
   const [collapsedSkills, setCollapsedSkills] = useState(true);
   const [chars, setChars] = useState<Char[]>([]);
   const [selectedChar, setSelectedChar] = useState<Char | undefined>(undefined);
@@ -39,7 +40,7 @@ export default function Home(props) {
 
   useEffect(() => {
     if (characters?.data) {
-      const updatedChars = characters.data as Char[];
+      const updatedChars = characters.data as unknown as Char[];
       setChars(updatedChars);
       if (!selectedChar && updatedChars.length > 0) {
         setSelectedChar(updatedChars[0]);
@@ -162,6 +163,14 @@ export default function Home(props) {
               </span>
               Criar
             </button>
+            <DialogClose asChild>
+              <button className="btn btn-secondary h-fit gap-1 rounded-lg bg-red-500 p-2 text-white">
+                <span role="img" aria-label="Trash Bin"> 
+                🗑️
+                </span>
+                Cancelar
+              </button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -169,7 +178,7 @@ export default function Home(props) {
         <div className="flex h-full w-full gap-2 bg-[#152724]">
           <div className="golden-gradient hidden w-fit p-2 sm:block">
             <Image
-              src="/rouge.png"
+              src={selectedChar?.class?.image ?? "/rouge.png"}
               alt="Logo"
               width={0}
               height={0}

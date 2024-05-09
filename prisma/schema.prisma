@@ -85,6 +85,7 @@ model Skill {
 model Class {
   id          Int    @id @default(autoincrement())
   name        String @unique
+  image       String @default("/warrior.png")
   emoji       String
   description String
 
